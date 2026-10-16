@@ -1,0 +1,111 @@
+{
+  "runtime": "soundcraft-cli 0.7.0 Windows x64",
+  "ciRun": "https://github.com/partme-ai/full-aigc-plugins/actions/runs/38921194883",
+  "sceneAcceptance": "NOT_RUN",
+  "observedCommands": {
+    "audiosuite.process": {
+      "id": "audiosuite.process",
+      "label": "AudioSuite Process",
+      "menu": [],
+      "shortcut": null,
+      "params": "{process: <plugin id> | normalize | reverse | invert | gain | duplicate | time_stretch | pitch_shift | varispeed | signal_generator, params?: {..}, clips?, tracks?, start?, end?} — signal_generator fills start..end (default: the selection) with a new clip on each audio track in `tracks` (default: the selected tracks)",
+      "enabled": false,
+      "disabled_reason": "nothing is selected"
+    },
+    "clip.gain": {
+      "id": "clip.gain",
+      "label": "Clip Gain",
+      "menu": [],
+      "shortcut": null,
+      "params": "{clips?, db | delta_db}",
+      "enabled": false,
+      "disabled_reason": "nothing is selected"
+    },
+    "edit.fades_create": {
+      "id": "edit.fades_create",
+      "label": "Create...",
+      "menu": [
+        "Edit",
+        "Fades"
+      ],
+      "shortcut": "Cmd+F",
+      "params": "{shape?: linear|equal power|s-curve|exponential|logarithmic, tracks?, start?, end?} or {clip: id, side: in|out, length: samples, shape?, curvature?: -1..1}",
+      "enabled": false,
+      "disabled_reason": "make an edit selection first"
+    },
+    "edit.select": {
+      "id": "edit.select",
+      "label": "Set Edit Selection",
+      "menu": [],
+      "shortcut": null,
+      "params": "{tracks?: [id|name], start?, end?, clips?: [id], sources?: [id] (Clip List files), exact?: bool (ignore edit groups)}",
+      "enabled": true,
+      "disabled_reason": null
+    },
+    "edit.select_all": {
+      "id": "edit.select_all",
+      "label": "Select All",
+      "menu": [
+        "Edit"
+      ],
+      "shortcut": "Cmd+A",
+      "params": "{}",
+      "enabled": true,
+      "disabled_reason": null
+    },
+    "file.bounce_mix": {
+      "id": "file.bounce_mix",
+      "label": "Bounce Mix...",
+      "menu": [
+        "File"
+      ],
+      "shortcut": "Cmd+Alt+B",
+      "params": "{path, format?: wav|aiff|flac, bit_depth?: 16|24|32f, start?, end?, source?: main|bus name, normalize?: false, dither?: true, fold_down?: stereo}",
+      "enabled": true,
+      "disabled_reason": null
+    },
+    "file.bounce_stems": {
+      "id": "file.bounce_stems",
+      "label": "Bounce Stems...",
+      "menu": [],
+      "shortcut": null,
+      "params": "{dir, format?: wav|aiff|flac, bit_depth?: 16|24|32f, start?, end?, fold_down?: stereo}",
+      "enabled": false,
+      "disabled_reason": "the session has no tracks"
+    },
+    "file.import_audio": {
+      "id": "file.import_audio",
+      "label": "Audio...",
+      "menu": [
+        "File",
+        "Import"
+      ],
+      "shortcut": "Cmd+Shift+I",
+      "params": "{path | paths: [..], track?: target track, at?: position, new_tracks?: true (default; false uses `track` or the selected audio track)}",
+      "enabled": true,
+      "disabled_reason": null
+    },
+    "session.new": {
+      "id": "session.new",
+      "label": "New...",
+      "menu": [
+        "File"
+      ],
+      "shortcut": "Cmd+N",
+      "params": "{name?: 'Untitled', sample_rate?: 48000, bit_depth?: 24, template?: blank|demo}",
+      "enabled": true,
+      "disabled_reason": null
+    },
+    "track.new": {
+      "id": "track.new",
+      "label": "New...",
+      "menu": [
+        "Track"
+      ],
+      "shortcut": "Cmd+Shift+N",
+      "params": "{count?: 1, format?: mono|stereo|5.1…, kind?: audio|aux|master|midi|instrument|vca|folder, name?, timebase?: samples|ticks, instrument?: plugin id}",
+      "enabled": true,
+      "disabled_reason": null
+    }
+  }
+}
