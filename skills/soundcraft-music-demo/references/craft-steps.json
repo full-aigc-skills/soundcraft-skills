@@ -1,0 +1,42 @@
+{
+  "schema": "craft-scenario-playbooks/v1",
+  "application": "soundcraft",
+  "id": "music-demo",
+  "execution": "COMMAND_MAPPED_NOT_SCENE_ACCEPTED",
+  "steps": [
+    {
+      "purpose": "检查轨道与路由",
+      "command": "session.inspect",
+      "params": {
+        "detail": "full"
+      }
+    },
+    {
+      "purpose": "以选定轨为单位平衡音量",
+      "command": "mix.volume",
+      "params": {
+        "db": -6
+      }
+    },
+    {
+      "purpose": "对实际选中的乐器轨做适度声像",
+      "command": "mix.pan",
+      "params": {
+        "pan": -0.2
+      }
+    },
+    {
+      "purpose": "分别导出分轨母版",
+      "command": "file.bounce_stems",
+      "params": {
+        "dir": "output/stems",
+        "format": "wav",
+        "bit_depth": "24"
+      }
+    }
+  ],
+  "check": "单声道核对主旋律与低频，分轨长度、起点和采样率一致。",
+  "boundary": "不要把所有轨套同一音量声像；每步前按实际轨道角色重新选择。",
+  "templateOnly": true,
+  "argumentPolicy": "示例参数必须按当前输入、选择和实际返回ID替换；$变量先解析，数组变量整字段替换，不能将本文件直接当原生CLI脚本执行。"
+}

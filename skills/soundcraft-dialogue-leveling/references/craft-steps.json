@@ -1,0 +1,42 @@
+{
+  "schema": "craft-scenario-playbooks/v1",
+  "application": "soundcraft",
+  "id": "dialogue-leveling",
+  "execution": "COMMAND_MAPPED_NOT_SCENE_ACCEPTED",
+  "steps": [
+    {
+      "purpose": "读各说话人片段及电平上下文",
+      "command": "session.inspect",
+      "params": {
+        "detail": "full"
+      }
+    },
+    {
+      "purpose": "对一个选中说话人先做片段增益",
+      "command": "clip.gain",
+      "params": {
+        "delta_db": 2
+      }
+    },
+    {
+      "purpose": "做一次增益调整后试听而非反复压缩",
+      "command": "mix.volume",
+      "params": {
+        "db": -3
+      }
+    },
+    {
+      "purpose": "输出试听版",
+      "command": "file.bounce_mix",
+      "params": {
+        "path": "output/dialogue-review.wav",
+        "format": "wav",
+        "bit_depth": "24"
+      }
+    }
+  ],
+  "check": "切换说话人时响度自然，低声、笑声、停顿没有异常放大。",
+  "boundary": "示例+2dB不是所有说话人的统一增益；需按实测差异逐人调整，LUFS需独立测量。",
+  "templateOnly": true,
+  "argumentPolicy": "示例参数必须按当前输入、选择和实际返回ID替换；$变量先解析，数组变量整字段替换，不能将本文件直接当原生CLI脚本执行。"
+}

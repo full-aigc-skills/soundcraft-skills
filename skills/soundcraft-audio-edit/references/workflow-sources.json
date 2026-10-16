@@ -1,0 +1,33 @@
+{
+  "policy": "只借鉴工作流事实，场景正文与命令例子原创编写，不复制外部代码、正文或素材。许可不明的来源仅作为参考。",
+  "sources": [
+    {
+      "repository": "audacity/audacity-manual",
+      "commit": "92794e43861704433b0af65dbe503ef9253ff4e4",
+      "license": null,
+      "readFiles": [
+        {
+          "path": "manual/man/noise_reduction.html",
+          "url": "https://github.com/audacity/audacity-manual/blob/92794e43861704433b0af65dbe503ef9253ff4e4/manual/man/noise_reduction.html",
+          "bytes": 25937
+        },
+        {
+          "path": "manual/man/normalize.html",
+          "url": "https://github.com/audacity/audacity-manual/blob/92794e43861704433b0af65dbe503ef9253ff4e4/manual/man/normalize.html",
+          "bytes": 17644
+        },
+        {
+          "path": "manual/man/tutorial_click_and_pop_removal_techniques.html",
+          "url": "https://github.com/audacity/audacity-manual/blob/92794e43861704433b0af65dbe503ef9253ff4e4/manual/man/tutorial_click_and_pop_removal_techniques.html",
+          "bytes": 9617
+        },
+        {
+          "path": "manual/man/license.html",
+          "url": "https://github.com/audacity/audacity-manual/blob/92794e43861704433b0af65dbe503ef9253ff4e4/manual/man/license.html",
+          "bytes": 33735
+        }
+      ],
+      "reuse": "workflow facts and original adaptation only; no upstream text, code or assets copied"
+    }
+  ]
+}

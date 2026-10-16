@@ -1,0 +1,38 @@
+{
+  "schema": "craft-scenario-playbooks/v1",
+  "application": "soundcraft",
+  "id": "audio-edit",
+  "execution": "COMMAND_MAPPED_NOT_SCENE_ACCEPTED",
+  "steps": [
+    {
+      "purpose": "检查时间范围和选区",
+      "command": "session.inspect",
+      "params": {
+        "detail": "full"
+      }
+    },
+    {
+      "purpose": "在已确认播放位置分割选中轨",
+      "command": "edit.separate",
+      "params": {}
+    },
+    {
+      "purpose": "对选中剪辑加入淡变",
+      "command": "edit.fades_create",
+      "params": {
+        "shape": "equal power"
+      }
+    },
+    {
+      "purpose": "检查编辑后片段结构",
+      "command": "session.inspect",
+      "params": {
+        "detail": "full"
+      }
+    }
+  ],
+  "check": "核对段落顺序、时长、首尾词与点击声，保存会话后重开。",
+  "boundary": "先在UI或命令中建立准确选区/插入点，不以播放光标代替源片段时间。",
+  "templateOnly": true,
+  "argumentPolicy": "示例参数必须按当前输入、选择和实际返回ID替换；$变量先解析，数组变量整字段替换，不能将本文件直接当原生CLI脚本执行。"
+}
