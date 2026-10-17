@@ -28,4 +28,4 @@ AudioSuite normalize的目标参数为`target_db`；反转极性为`invert`，�
 
 保留对白与视频对时关系、把低电平段变为间隙时，交给 **soundcraft-voice-silence-gaps** 技能。独立安装：`npx skills add full-aigc-skills/soundcraft-skills --skill soundcraft-voice-silence-gaps`。
 
-提示音或已核查接缝的音效需精确总次数、后续展开编辑时，交给 **soundcraft-finite-audio-loop** 技能。独立安装：`npx skills add full-aigc-skills/soundcraft-skills --skill soundcraft-finite-audio-loop`。本批为开发候选，未进入当前主市场版本；真实素材试听与宿主同步尚未验收。
+提示音或已核查接缝的音效需精确总次数、后续展开编辑时，交给 **soundcraft-finite-audio-loop** 技能。独立安装：`npx skills add full-aigc-skills/soundcraft-skills --skill soundcraft-finite-audio-loop`。本批随配套插件开发预发布提供；真实素材试听与宿主同步尚未验收。

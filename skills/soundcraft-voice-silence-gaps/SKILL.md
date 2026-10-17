@@ -13,7 +13,7 @@ license: Apache-2.0
 
 执行前读 [逐步参数](references/craft-steps.json) 和 [调用与检查](references/craft-methods.md)。先读真实输入，所有时长、轨道和片段ID按实际内容替换。已有项目不执行session.new，不覆盖源会话或原音频。
 
-需要内嵌画面时交给 **soundcraft-editor** 技能。独立安装：`npx skills add full-aigc-skills/soundcraft-skills --skill soundcraft-editor`。本批新技能尚为本地开发候选，未随市场发行。
+需要内嵌画面时交给 **soundcraft-editor** 技能。独立安装：`npx skills add full-aigc-skills/soundcraft-skills --skill soundcraft-editor`。本批技能随SoundCraft开发预发布提供，真实素材和其他宿主仍需分别验收。
 
 两段有效信号保留原0.5和2.5秒时间位置，前10ms后20ms余量保留；其他轨道不变；按原4秒范围导出后比较有效区及间隙。
 
