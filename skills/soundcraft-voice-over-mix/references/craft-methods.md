@@ -4,10 +4,10 @@
 
 | 顺序与目的 | 实际方法 | 参数例子 |
 | --- | --- | --- |
-| 1. 核对配音与音乐轨道ID | `session.inspect` | `{"detail":"full"}` |
-| 2. 降低已明确选择的音乐轨音量 | `mix.volume` | `{"db":-18}` |
-| 3. 保持配音中央声像 | `mix.pan` | `{"pan":0}` |
-| 4. 导出审核母版 | `file.bounce_mix` | `{"path":"output/voice-mix.wav","format":"wav","bit_depth":"24"}` |
+| 1. 读取实际轨道名/ID，确认配音Voice与音乐Bed分别存在 | `session.inspect` | `{"detail":"full"}` |
+| 2. 仅降低音乐Bed，示例-18dB需要按配音与音乐实测重算 | `mix.volume` | `{"tracks":["Bed"],"db":-18}` |
+| 3. 明确将配音Voice居中，不沿用音乐轨的当前选择 | `mix.pan` | `{"tracks":["Voice"],"pan":0}` |
+| 4. 导出明确四秒的24位审核母版 | `file.bounce_mix` | `{"start":{"seconds":0},"end":{"seconds":4},"format":"wav","bit_depth":24,"normalize":false,"dither":false,"path":"output/voice-mix.wav"}` |
 
 ## 如何调用
 
@@ -17,7 +17,7 @@
 
 CLI 语法（下面是展示用写法，实际跨平台执行用argv避免shell引号差异）：
 
-soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行：clip.gain {"delta_db":2}。音频格式转换另用 soundcraft-cli convert input.wav output.wav --rate 48000。
+`soundcraft-cli run --in input.scraft --cmd '方法ID=JSON' … --save output.scraft`；每个`方法ID=JSON`作为一个独立argv参数。格式转换使用实际`convert --rate`参数。
 
 ## 参数核对与完成标准
 
@@ -25,7 +25,7 @@ soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行�
 
 单独听人声、音乐和混合结果，讲话期间字句清楚，输出无削波。
 
-边界：选择音乐轨后才调用volume；切到配音轨再pan，不能让这两步作用于同一错误轨道。
+边界：Voice/Bed为示例轨道名；先由inspect匹配真实ID/名称，缺失或同名歧义时停止，不能新建同名轨代替用户素材。-18dB是测量起点，不是自动ducking或LUFS标准化；逐句试听音乐是否遮住配音。
 
 保存可编辑工程后由新进程或重新打开的同一宿主会话核对；导出格式单独解码/查看。方法存在和零退出不代表本场景已经完成。
 

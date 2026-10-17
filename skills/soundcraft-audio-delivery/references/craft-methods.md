@@ -4,9 +4,9 @@
 
 | 顺序与目的 | 实际方法 | 参数例子 |
 | --- | --- | --- |
-| 1. 检查会话长度与媒体 | `session.inspect` | `{"detail":"summary"}` |
-| 2. 导出指定范围母版 | `file.bounce_mix` | `{"path":"output/master.wav","format":"wav","bit_depth":"24","normalize":false}` |
-| 3. 导出可审阅工程结构说明 | `file.export_session_text` | `{"path":"output/session.txt"}` |
+| 1. 检查实际会话长度、轨道和引用，示例交付范围四秒 | `session.inspect` | `{"detail":"full"}` |
+| 2. 输出48kHz会话的24位PCM WAV母版，明确0至4秒而非猜测尾部 | `file.bounce_mix` | `{"start":{"seconds":0},"end":{"seconds":4},"format":"wav","bit_depth":24,"normalize":false,"dither":false,"path":"output/master.wav"}` |
+| 3. 导出可审阅的真实会话结构文本 | `file.export_session_text` | `{"path":"output/session.txt"}` |
 
 ## 如何调用
 
@@ -16,7 +16,7 @@
 
 CLI 语法（下面是展示用写法，实际跨平台执行用argv避免shell引号差异）：
 
-soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行：clip.gain {"delta_db":2}。音频格式转换另用 soundcraft-cli convert input.wav output.wav --rate 48000。
+`soundcraft-cli run --in input.scraft --cmd '方法ID=JSON' … --save output.scraft`；每个`方法ID=JSON`作为一个独立argv参数。格式转换使用实际`convert --rate`参数。
 
 ## 参数核对与完成标准
 
@@ -24,7 +24,7 @@ soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行�
 
 用独立info检查采样率、声道、时长，再播放首尾和关键段。
 
-边界：采样率转换使用CLI convert --rate真实参数；不要只改文件后缀或多次有损转码。
+边界：会话采样率需先核实，本例会话为48kHz，bounce_mix不执行任意重采样；需要其他采样率使用实际CLI convert --rate。0至4秒按真实交付边界重算；24位PCM不是有损格式，另存母版并保留源工程和引用媒体。
 
 保存可编辑工程后由新进程或重新打开的同一宿主会话核对；导出格式单独解码/查看。方法存在和零退出不代表本场景已经完成。
 

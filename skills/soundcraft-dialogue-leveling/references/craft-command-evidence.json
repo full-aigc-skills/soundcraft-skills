@@ -16,6 +16,27 @@
       "enabled": true,
       "disabled_reason": null
     },
+    "edit.separate": {
+      "id": "edit.separate",
+      "label": "At Selection",
+      "menu": [
+        "Edit",
+        "Separate"
+      ],
+      "shortcut": "Cmd+E",
+      "params": "{tracks?, at?|start/end}",
+      "enabled": false,
+      "disabled_reason": "nothing is selected"
+    },
+    "edit.select": {
+      "id": "edit.select",
+      "label": "Set Edit Selection",
+      "menu": [],
+      "shortcut": null,
+      "params": "{tracks?: [id|name], start?, end?, clips?: [id], sources?: [id] (Clip List files), exact?: bool (ignore edit groups)}",
+      "enabled": true,
+      "disabled_reason": null
+    },
     "clip.gain": {
       "id": "clip.gain",
       "label": "Clip Gain",

@@ -4,10 +4,12 @@
 
 | 顺序与目的 | 实际方法 | 参数例子 |
 | --- | --- | --- |
-| 1. 读各说话人片段及电平上下文 | `session.inspect` | `{"detail":"full"}` |
-| 2. 对一个选中说话人先做片段增益 | `clip.gain` | `{"delta_db":2}` |
-| 3. 做一次增益调整后试听而非反复压缩 | `mix.volume` | `{"db":-3}` |
-| 4. 输出试听版 | `file.bounce_mix` | `{"path":"output/dialogue-review.wav","format":"wav","bit_depth":"24"}` |
+| 1. 确认Quiet/Loud两段边界，示例同轨前两秒比后两秒低6dB | `session.inspect` | `{"detail":"full"}` |
+| 2. 在已核实2秒说话人边界分开Voice片段，不移动内容 | `edit.separate` | `{"tracks":["Voice"],"at":{"seconds":2}}` |
+| 3. 选择第一段内部0.1至1.9秒，选中第一段而非边界处两个片段 | `edit.select` | `{"tracks":["Voice"],"start":{"seconds":0.1},"end":{"seconds":1.9}}` |
+| 4. 把选中较轻片段设为+6dB绝对增益，较响片段保持原样 | `clip.gain` | `{"db":6}` |
+| 5. 仅将Voice总轨降低3dB保留输出余量 | `mix.volume` | `{"tracks":["Voice"],"db":-3}` |
+| 6. 输出实际四秒24位审核音频 | `file.bounce_mix` | `{"start":{"seconds":0},"end":{"seconds":4},"format":"wav","bit_depth":24,"normalize":false,"dither":false,"path":"output/dialogue-review.wav"}` |
 
 ## 如何调用
 
@@ -17,7 +19,7 @@
 
 CLI 语法（下面是展示用写法，实际跨平台执行用argv避免shell引号差异）：
 
-soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行：clip.gain {"delta_db":2}。音频格式转换另用 soundcraft-cli convert input.wav output.wav --rate 48000。
+`soundcraft-cli run --in input.scraft --cmd '方法ID=JSON' … --save output.scraft`；每个`方法ID=JSON`作为一个独立argv参数。格式转换使用实际`convert --rate`参数。
 
 ## 参数核对与完成标准
 
@@ -25,7 +27,7 @@ soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行�
 
 切换说话人时响度自然，低声、笑声、停顿没有异常放大。
 
-边界：示例+2dB不是所有说话人的统一增益；需按实测差异逐人调整，LUFS需独立测量。
+边界：2秒边界、前段低6dB及0.1至1.9秒选区仅适用于该示例；按实际段落边界与实测差异替换，必要时用inspect返回的精确片段ID。先确认只选中较轻片段，不能按每个说话人统一套6dB。clip.gain是片段增益，不会只修改片段中被时间选区覆盖的采样；LUFS和真实语音自然度另验。
 
 保存可编辑工程后由新进程或重新打开的同一宿主会话核对；导出格式单独解码/查看。方法存在和零退出不代表本场景已经完成。
 
