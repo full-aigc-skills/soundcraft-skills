@@ -14,4 +14,4 @@
 
 ## 对时静音与有限循环开发候选
 
-新增 `soundcraft-voice-silence-gaps` 与 `soundcraft-finite-audio-loop`，参考Audacity固定GitHub提交的工作流事实，原创映射实际方法、参数、ID及采样检查。官方0.7.0 macOS实际完成两场景11次CLI，保留原时轴、循环三份/展开及源文件保护通过；尚未随市场发行，Windows和宿主画面同步待验证。双麦克风拆轨在0.7.0导出时左右内容未分离，本批不提供该技能，不以轨道元数据当成音频正确性证明。
+新增 `soundcraft-voice-silence-gaps` 与 `soundcraft-finite-audio-loop`，参考Audacity固定GitHub提交的工作流事实，原创映射实际方法、参数、ID及采样检查。官方0.7.0 macOS实际完成两场景11次CLI，保留原时轴、循环三份/展开及源文件保护通过；Windows完整16记录与输出摘要复核通过；隔离本地候选已通过真实Codex MCP与内置浏览器限定同步、scraftz保存重开及独立CLI音频回读。尚未随市场发行，真实素材试听和其他宿主待验证。双麦克风拆轨在0.7.0导出时左右内容未分离，本批不提供该技能，不以轨道元数据当成音频正确性证明。

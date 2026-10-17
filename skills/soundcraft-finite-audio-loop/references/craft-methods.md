@@ -24,3 +24,7 @@ CLI以argv传参：`soundcraft-cli run --in input.scraft --cmd 方法ID=JSON …
 所有编辑和保存都保持同一MCP实例。保存用实际schema中的 `save_session`，新输出相对工作区；独立CLI进程不会同步改动现有页面。不要把JSON模板中的变量、capture或用途字段送给原生方法。
 
 保存后重新打开工程，解码审核WAV，核对通道、帧数、目标区及非目标区；原会话与源音频摘要应不变。样例使用48kHz/24位PCM、关闭normalize与dither以便比较，不能当作所有平台的音频交付标准。任何处理后都要听实际词首尾、接缝和呼吸声。
+
+## 宿主实际保存路径
+
+当前内嵌运行时请求save_session的.scraft路径，实际written回执可能返回.scraftz打包工程（内含会话和Audio Files）。以实际回执路径核对交付，重开调用open_session传实际.scraftz路径；不要声称请求的.scraft文件已单独写入。CLI文件任务仍可保存.scraft并保留其关联音频目录。当前这两种路径已分别回读；不把纯JSON会话当成自包含音频包。
