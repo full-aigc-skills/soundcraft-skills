@@ -4,10 +4,13 @@
 
 | 顺序与目的 | 实际方法 | 参数例子 |
 | --- | --- | --- |
-| 1. 检查轨道和片段，不先全局降噪 | `session.inspect` | `{"detail":"full"}` |
-| 2. 先调整选中片段增益 | `clip.gain` | `{"db":-3}` |
-| 3. 对已选剪辑边缘建立等功率淡变 | `edit.fades_create` | `{"shape":"equal power"}` |
-| 4. 查询当前实际插件，再决定均衡或降噪 | `engine.plugins` | `{}` |
+| 1. 读取实际轨道、片段和编辑范围，示例四秒/48kHz | `session.inspect` | `{"detail":"full"}` |
+| 2. 明确选择Voice四秒片段，不沿用其他轨道的临时选区 | `edit.select` | `{"tracks":["Voice"],"start":{"seconds":0},"end":{"seconds":4}}` |
+| 3. 对本次选中人声片段设置-3dB增益保留余量 | `clip.gain` | `{"db":-3}` |
+| 4. 仅在人声头部100ms做等功率淡入 | `edit.fades_create` | `{"tracks":["Voice"],"start":{"seconds":0},"end":{"seconds":0.1},"shape":"equal power"}` |
+| 5. 仅在人声尾部100ms做等功率淡出 | `edit.fades_create` | `{"tracks":["Voice"],"start":{"seconds":3.9},"end":{"seconds":4},"shape":"equal power"}` |
+| 6. 读取真实效果目录；仅查询不代表已做均衡或降噪 | `engine.plugins` | `{}` |
+| 7. 输出明确四秒24位PCM审核混音 | `file.bounce_mix` | `{"path":"output/podcast-review.wav","format":"wav","bit_depth":24,"start":{"seconds":0},"end":{"seconds":4},"normalize":false,"dither":false}` |
 
 ## 如何调用
 
@@ -17,7 +20,7 @@
 
 CLI 语法（下面是展示用写法，实际跨平台执行用argv避免shell引号差异）：
 
-soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行：clip.gain {"delta_db":2}。音频格式转换另用 soundcraft-cli convert input.wav output.wav --rate 48000。
+`soundcraft-cli run --in input.scraft --cmd '方法ID=JSON' … --save output.scraft`；每个`方法ID=JSON`作为独立argv参数，不拼接未转义的shell字符串。
 
 ## 参数核对与完成标准
 
@@ -25,7 +28,7 @@ soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行�
 
 整段试听切口、呼吸声、尾音和电平，保留原轨。
 
-边界：插件目录不证明存在频谱降噪；未找到实际算法时报告未降噪，不用门限器冒充消除底噪。
+边界：Voice、四秒范围、100ms和-3dB仅为示例；先核实真实首辅音、尾音和边界，不能把有效语音吞进淡变。示例只完成增益与边缘淡变：engine.plugins仅列出目录，没有执行EQ、压缩或降噪；必须找到真实处理方法并验证后才能声称已做该处理。错误语句、呼吸与内容连贯仍需按真实素材逐段试听，不能用门限器冒充频谱降噪。
 
 保存可编辑工程后由新进程或重新打开的同一宿主会话核对；导出格式单独解码/查看。方法存在和零退出不代表本场景已经完成。
 

@@ -4,10 +4,13 @@
 
 | 顺序与目的 | 实际方法 | 参数例子 |
 | --- | --- | --- |
-| 1. 检查轨道与路由 | `session.inspect` | `{"detail":"full"}` |
-| 2. 以选定轨为单位平衡音量 | `mix.volume` | `{"db":-6}` |
-| 3. 对实际选中的乐器轨做适度声像 | `mix.pan` | `{"pan":-0.2}` |
-| 4. 分别导出分轨母版 | `file.bounce_stems` | `{"dir":"output/stems","format":"wav","bit_depth":"24"}` |
+| 1. 读取实际轨道、片段和编辑范围，示例四秒/48kHz | `session.inspect` | `{"detail":"full"}` |
+| 2. 仅将主旋律Lead调整至示例-6dB | `mix.volume` | `{"tracks":["Lead"],"db":-6}` |
+| 3. 仅将主旋律略偏左，保持Bed声像独立 | `mix.pan` | `{"tracks":["Lead"],"pan":-0.2}` |
+| 4. 仅将背景Bed调整至示例-12dB | `mix.volume` | `{"tracks":["Bed"],"db":-12}` |
+| 5. 背景保持中央，不沿用Lead当前对象 | `mix.pan` | `{"tracks":["Bed"],"pan":0}` |
+| 6. 输出明确四秒24位PCM审核混音 | `file.bounce_mix` | `{"path":"output/music-review.wav","format":"wav","bit_depth":24,"start":{"seconds":0},"end":{"seconds":4},"normalize":false,"dither":false}` |
+| 7. 导出当前全部启用且未静音轨的同起点同长度24位stems | `file.bounce_stems` | `{"dir":"output/stems","format":"wav","bit_depth":24,"start":{"seconds":0},"end":{"seconds":4}}` |
 
 ## 如何调用
 
@@ -17,7 +20,7 @@
 
 CLI 语法（下面是展示用写法，实际跨平台执行用argv避免shell引号差异）：
 
-soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行：clip.gain {"delta_db":2}。音频格式转换另用 soundcraft-cli convert input.wav output.wav --rate 48000。
+`soundcraft-cli run --in input.scraft --cmd '方法ID=JSON' … --save output.scraft`；每个`方法ID=JSON`作为独立argv参数，不拼接未转义的shell字符串。
 
 ## 参数核对与完成标准
 
@@ -25,7 +28,7 @@ soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行�
 
 单声道核对主旋律与低频，分轨长度、起点和采样率一致。
 
-边界：不要把所有轨套同一音量声像；每步前按实际轨道角色重新选择。
+边界：Lead/Bed是示例角色名，按inspect解析实际唯一轨道，-6/-12dB与声像按素材测量重算。本方法导出所有启用且未静音的音频/乐器/MIDI轨，不是仅选中轨；交付前列清单，不能把其他轨意外打包或自动静音用户轨。stems保留单轨混音处理，不是原始干声备份；共享总线效果、发送或压缩存在时，各stem相加不一定等于全混音，需要另验。示例无插入/发送/共享效果，才能以两stem相加核对混音。
 
 保存可编辑工程后由新进程或重新打开的同一宿主会话核对；导出格式单独解码/查看。方法存在和零退出不代表本场景已经完成。
 

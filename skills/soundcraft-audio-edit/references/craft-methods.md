@@ -4,10 +4,12 @@
 
 | 顺序与目的 | 实际方法 | 参数例子 |
 | --- | --- | --- |
-| 1. 检查时间范围和选区 | `session.inspect` | `{"detail":"full"}` |
-| 2. 在已确认播放位置分割选中轨 | `edit.separate` | `{}` |
-| 3. 对选中剪辑加入淡变 | `edit.fades_create` | `{"shape":"equal power"}` |
-| 4. 检查编辑后片段结构 | `session.inspect` | `{"detail":"full"}` |
+| 1. 读取实际轨道、片段和编辑范围，示例四秒/48kHz | `session.inspect` | `{"detail":"full"}` |
+| 2. 明确选择Voice四秒片段，不沿用其他轨道的临时选区 | `edit.select` | `{"tracks":["Voice"],"start":{"seconds":0},"end":{"seconds":4}}` |
+| 3. 在确认的2秒切口分割Voice，不默认使用当前播放光标 | `edit.separate` | `{"tracks":["Voice"],"at":{"seconds":2}}` |
+| 4. 同源连续片段在切口两侧各50ms作互补线性交叉淡化 | `edit.fades_create` | `{"tracks":["Voice"],"start":{"seconds":1.95},"end":{"seconds":2.05},"shape":"linear"}` |
+| 5. 检查两个片段的源偏移、重叠区、长度与原时轴 | `session.inspect` | `{"detail":"full"}` |
+| 6. 输出明确四秒24位PCM审核混音 | `file.bounce_mix` | `{"path":"output/edit-review.wav","format":"wav","bit_depth":24,"start":{"seconds":0},"end":{"seconds":4},"normalize":false,"dither":false}` |
 
 ## 如何调用
 
@@ -17,7 +19,7 @@
 
 CLI 语法（下面是展示用写法，实际跨平台执行用argv避免shell引号差异）：
 
-soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行：clip.gain {"delta_db":2}。音频格式转换另用 soundcraft-cli convert input.wav output.wav --rate 48000。
+`soundcraft-cli run --in input.scraft --cmd '方法ID=JSON' … --save output.scraft`；每个`方法ID=JSON`作为独立argv参数，不拼接未转义的shell字符串。
 
 ## 参数核对与完成标准
 
@@ -25,7 +27,7 @@ soundcraft-cli script steps.txt --in input.scraft --save output.scraft；每行�
 
 核对段落顺序、时长、首尾词与点击声，保存会话后重开。
 
-边界：先在UI或命令中建立准确选区/插入点，不以播放光标代替源片段时间。
+边界：本例是同源连续音频在2秒分割，利用源余量在1.95至2.05秒重叠，采用互补linear避免相关信号等功率叠加增益；不将它原样用于两个不同录次。切口位置、可用源余量和100ms时长均需现场核实。余量不足时不假定已形成完整交叉淡化，先看实际片段源偏移/重叠，再听接缝；不为凑重叠移动已确认的时轴。
 
 保存可编辑工程后由新进程或重新打开的同一宿主会话核对；导出格式单独解码/查看。方法存在和零退出不代表本场景已经完成。
 

@@ -16,6 +16,15 @@
       "enabled": true,
       "disabled_reason": null
     },
+    "edit.select": {
+      "id": "edit.select",
+      "label": "Set Edit Selection",
+      "menu": [],
+      "shortcut": null,
+      "params": "{tracks?: [id|name], start?, end?, clips?: [id], sources?: [id] (Clip List files), exact?: bool (ignore edit groups)}",
+      "enabled": true,
+      "disabled_reason": null
+    },
     "clip.gain": {
       "id": "clip.gain",
       "label": "Clip Gain",
@@ -43,6 +52,17 @@
       "menu": [],
       "shortcut": null,
       "params": "{}",
+      "enabled": true,
+      "disabled_reason": null
+    },
+    "file.bounce_mix": {
+      "id": "file.bounce_mix",
+      "label": "Bounce Mix...",
+      "menu": [
+        "File"
+      ],
+      "shortcut": "Cmd+Alt+B",
+      "params": "{path, format?: wav|aiff|flac, bit_depth?: 16|24|32f, start?, end?, source?: main|bus name, normalize?: false, dither?: true, fold_down?: stereo}",
       "enabled": true,
       "disabled_reason": null
     }

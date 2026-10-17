@@ -16,6 +16,15 @@
       "enabled": true,
       "disabled_reason": null
     },
+    "edit.select": {
+      "id": "edit.select",
+      "label": "Set Edit Selection",
+      "menu": [],
+      "shortcut": null,
+      "params": "{tracks?: [id|name], start?, end?, clips?: [id], sources?: [id] (Clip List files), exact?: bool (ignore edit groups)}",
+      "enabled": true,
+      "disabled_reason": null
+    },
     "edit.separate": {
       "id": "edit.separate",
       "label": "At Selection",
@@ -39,6 +48,17 @@
       "params": "{shape?: linear|equal power|s-curve|exponential|logarithmic, tracks?, start?, end?} or {clip: id, side: in|out, length: samples, shape?, curvature?: -1..1}",
       "enabled": false,
       "disabled_reason": "make an edit selection first"
+    },
+    "file.bounce_mix": {
+      "id": "file.bounce_mix",
+      "label": "Bounce Mix...",
+      "menu": [
+        "File"
+      ],
+      "shortcut": "Cmd+Alt+B",
+      "params": "{path, format?: wav|aiff|flac, bit_depth?: 16|24|32f, start?, end?, source?: main|bus name, normalize?: false, dither?: true, fold_down?: stereo}",
+      "enabled": true,
+      "disabled_reason": null
     }
   },
   "sceneAcceptance": "NOT_RUN"
