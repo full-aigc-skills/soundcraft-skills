@@ -9,7 +9,7 @@ spec=importlib.util.spec_from_file_location('podcast_input',ROOT/'scripts/podcas
 module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
 class InputContract(unittest.TestCase):
     def setUp(self):
-        self.template=json.loads((ROOT/'references/craft-steps.json').read_text())
+        self.template=json.loads((ROOT/'references/craft-steps.json').read_text(encoding='utf-8'))
         self.data={'track':'访谈 主轨','startSeconds':12,'endSeconds':42,'fadeInSeconds':0.02,'fadeOutSeconds':0.05,'gainDb':-2.5,'output':'审核/访谈.wav'}
     def test_maps_actual_input_without_mutating_template(self):
         before=copy.deepcopy(self.template);recipe=module.build_recipe(self.data,self.template);steps=recipe['steps']
